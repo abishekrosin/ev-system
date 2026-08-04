@@ -1,5 +1,4 @@
 pipeline {
-<<<<<<< HEAD
     agent any
 
     stages {
@@ -65,7 +64,6 @@ pipeline {
             cleanWs()
         }
     }
-=======
  agent any
  stages {
  stage('Clone') {
@@ -118,5 +116,4 @@ pipeline {
  echo 'Pipeline Completed.'
  }
  }
->>>>>>> b003310 (Updated Jenkinsfile and backend changes)
 }
