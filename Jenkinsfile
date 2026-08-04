@@ -1,4 +1,5 @@
 pipeline {
+<<<<<<< HEAD
     agent any
 
     stages {
@@ -64,4 +65,58 @@ pipeline {
             cleanWs()
         }
     }
+=======
+ agent any
+ stages {
+ stage('Clone') {
+ steps {
+ echo 'Cloning Source Code...'
+ checkout scm
+ }
+ }
+ stage('Cleanup Old Containers') {
+ steps {
+ echo 'Removing old containers...'
+ sh '''
+ docker compose down --remove-orphans || true
+ docker rm -f ev-system-backend || true
+ docker rm -f ev-system-frontend || true
+ docker container prune -f || true
+ '''
+ }
+ }
+ stage('Build Docker Images') {
+ steps {
+ echo 'Building Docker Images...'
+ sh 'docker compose build'
+ }
+ }
+ stage('Deploy Application') {
+ steps {
+ echo 'Starting Containers...'
+ sh 'docker compose up -d'
+ }
+ }
+ stage('Verify Deployment') {
+ steps {
+ echo 'Checking Running Containers...'
+ sh '''
+ docker ps
+ docker compose ps
+ '''
+ }
+ }
+ }
+ post {
+ success {
+ echo 'Deployment Successful!'
+ }
+ failure {
+ echo 'Deployment Failed!'
+ }
+ always {
+ echo 'Pipeline Completed.'
+ }
+ }
+>>>>>>> b003310 (Updated Jenkinsfile and backend changes)
 }
