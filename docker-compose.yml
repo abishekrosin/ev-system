@@ -1,0 +1,23 @@
+
+
+services:
+  backend:
+    image: ev-system-backend:latest
+    container_name: flask_app
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      MYSQL_HOST: ev-system.cfmsq8ouybdq.ap-northeast-2.rds.amazonaws.com
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin123
+      MYSQL_DB: officedb
+
+  frontend:
+    image: ev-system-frontend:latest
+    container_name: react_app
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
